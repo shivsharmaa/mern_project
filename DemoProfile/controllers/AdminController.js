@@ -15,8 +15,8 @@ exports.insertAdmin = async (req, res) => {
   try {
     const { name, email_id, password, is_account_active, phone_number } =
       req.body;
-    console.log(req.body);
-    console.log(email_id);
+    // console.log(req.body);
+    // console.log(email_id);
 
     // File validation
     if (!req.file) {
