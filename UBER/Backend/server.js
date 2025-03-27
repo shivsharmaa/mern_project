@@ -18,7 +18,7 @@ const cors = require('cors');
 const { RouterConfig } = require('./routes');
 const app = express();
 
-const port =  7000;
+const port = process.env.PORT || 3000; 
 
 mongoose.set("strictQuery", false);
 
