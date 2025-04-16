@@ -4,27 +4,23 @@ const Building = require("./BuildingModal")
 const wingSchema = new mongoose.Schema({
 
 
-    Wname : {
+    wingName : {
         type: String,
         required : true,
     },
 
-    Total_Floor : {
+    totalFloor : {
         type : Number,
         required: true
     },
 
-    Building : {
+    buildingId : {
        type: mongoose.Schema.Types.ObjectId,
         ref: "Building",
         required: true
     },
 
-    Address : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Address",
-        required: true
-    }
+    
 });
 
 wingSchema.set("timestamps", true);

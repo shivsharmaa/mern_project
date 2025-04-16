@@ -5,53 +5,50 @@ const Wing = require("./WingModal");
 
 const ownerSchema = new mongoose.Schema({
 
-    Owner_Name : {
+    ownerName : {
         type : String,
         required : true,
     },
-    Family_Count : {
+    familyCount : {
         type : Number,
         required : true,
     },
 
-    Contact_Number : {
+    contactNumber : {
         type : String,
-        require: true
+        required: true
+    },
+    emailId : {
+        type : String,
+       
+        
+
     },
 
-    Vehicle_Count : {
+    vehicleCount : {
         type : Number,
         required : true,
     },
 
-    Vehicle_Details: [{
-    Vehicle_Type: {
+    vehicleDetails: [{
+    vehicleType: {
         type: String,
         enum: ["Four Wheeler", "Two Wheeler"],
         required: true,
     },
-    Vehicle_Number: {
+    vehicleNumber: {
         type: String,
-        required: true
+        required: true,
+        unique : true
     }
 }],
 
-    Building : {
-         type: mongoose.Schema.Types.ObjectId,
-            ref : "Building",
-            required : true
-    },
 
-    Wing : {
-         type: mongoose.Schema.Types.ObjectId,
-            ref : "Wing",
-            required : true
-    },
-
-    Flat : {
+    flatId : {
          type: mongoose.Schema.Types.ObjectId,
             ref : "Flat",
-            required : true
+            required : true,
+            unique : true
     }
 });
 

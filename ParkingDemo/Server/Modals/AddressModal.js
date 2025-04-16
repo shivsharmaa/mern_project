@@ -2,22 +2,22 @@ const mongoose = require('mongoose');
 
 const addressSchema = new mongoose.Schema({
     
-    Area: {
+    area: {
         type: String
     },
-    City : {
+    city : {
         type: String,
         required : true
     },
-    State: {
+    state: {
         type: String,
         required : true,
     },
-    Country : {
+    country : {
         type: String,
         required : true
     },
-    Zip: {
+    zip: {
         type: String,
         required: true
     }

@@ -26,14 +26,14 @@ exports.createBuild = async (req, res) => {
 exports.getBuilding= async (req, res) => {
 
   try{
-    const building_data = await Building.findById(req.params.id).populate("Address");
+    const building_data = await Building.findById(req.params.id).populate("addressId");
 
 
     console.log("Building data" ,building_data);
     if(!building_data){
       return res.status(404).json({
         success: false,
-        message: "Building is created",
+        message: "Building not found",
       });
     }
     res.status(200).json({
@@ -58,7 +58,7 @@ exports.getBuilding= async (req, res) => {
 
 exports.getAllBuilding = async (req, res) =>{
   try{
-    const building_data = await Building.find().populate("Address");
+    const building_data = await Building.find().populate("addressId");
 
     console.log("---------------------start-----------------------------------");
     console.log(building_data)
@@ -85,7 +85,7 @@ exports.getAllBuilding = async (req, res) =>{
 exports.updateBuilding = async (req, res) => {
 
   try{
-    const buildingUpdate = await Building.findByIdAndUpdate(req.params, req.body, {
+    const buildingUpdate = await Building.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidation: true,
       useFindAndModify: false,
@@ -101,7 +101,7 @@ exports.updateBuilding = async (req, res) => {
 
   }catch(error){
     console.log(error);
-    return res.status(200).json({
+    return res.status(500).json({
       success: false,
       message: "something went wrong"
     })
@@ -112,7 +112,7 @@ exports.updateBuilding = async (req, res) => {
 
 exports.deleteBuilding = async (req, res) => {
   try{
-    const building = await Building.findByIdAndDelete(req.params);
+    const building = await Building.findByIdAndDelete(req.params.id);
     console.log(building);
     return res.status(200).json({
       success: true,

@@ -26,9 +26,10 @@ exports.createWing = async(req, res) => {
 exports.getWing = async (req, res) => {
     try{
         // const wing = await Wing.findById(req.params).populate(["Building", "Address"]);
-        const wing = await Wing.findById(req.params).populate("Building", "Address")
-        .populate({path : "Building",populate : {
-            path : "Address"
+        const wing = await Wing.findById(req.params).populate("buildingId", "addressId")
+        .populate({path : "buildingId", 
+            populate : {
+            path : "addressId"
         }
             
         });
@@ -52,7 +53,9 @@ exports.getWing = async (req, res) => {
 
 exports.getAllWing = async (req, res) => {
     try{
-        const wing = await Wing.find().populate("Building");
+        const wing = await Wing.find().populate({path : "buildingId", populate: {
+                    path: "addressId"
+                }});
         console.log(wing);
         return res.status(200).json({
           success: true,
@@ -70,4 +73,29 @@ exports.getAllWing = async (req, res) => {
 
 // update wing
 
-    
+// Update Wing
+exports.updateWing = async (req, res) => {
+    try {
+        const updatedWing = await Wing.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        if (!updatedWing) {
+            return res.status(404).json({
+                success: false,
+                message: 'Wing not found for update',
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Wing updated successfully',
+            data: updatedWing,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong',
+            error: error.message,
+        });
+    }
+};

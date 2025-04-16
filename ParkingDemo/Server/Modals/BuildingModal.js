@@ -3,11 +3,12 @@ const Address = require("./AddressModal")
 
 const buildingSchema = new mongoose.Schema({
  
-  Name: {
+  name: {
     type: String,
     required : true,
+    unique: true
   },
-  Address: {
+  addressId: {
     type: mongoose.Schema.Types.ObjectId,
     ref : "Address"
   },
