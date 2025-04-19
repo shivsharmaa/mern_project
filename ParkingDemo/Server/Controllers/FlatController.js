@@ -1,6 +1,7 @@
 const Flat = require("../Modals/FlatModel");
 const ParkingSpace = require("../Modals/ParkingSpace");
 
+//create flat
 exports.createFlat = async (req, res) => {
     try {
         console.log("Received body:", req.body);
@@ -112,7 +113,16 @@ exports.getSingleFlat = async (req, res) => {
 
 exports.getAllFlat = async (req, res) => {
     try{
-        const flat = await Flat.find().populate({
+
+        let {page, limit} = req.query;
+        page = parseInt(page) || 1;
+        limit = parseInt(limit) || 10;
+
+        const totalFlats = await Flat.countDocuments();
+              const totalPages = Math.ceil(totalFlats / limit);
+
+                
+        const flatData = await Flat.find().populate({
             path : "wingId",
             populate: {
                 path : "buildingId",
@@ -121,12 +131,21 @@ exports.getAllFlat = async (req, res) => {
                 }
             }
         })
+        .skip((page -1) * limit)
+        .limit(limit)
+        console.log(flatData);
         
 
         res.status(200).json({
             success: true,
             message: "Flat fetched successfully",
-            data: flat
+            data: flatData,
+            pagination : {
+        currentPage : page,
+        limit : limit,
+        totalFlats: totalFlats,
+        totalPages: totalPages,
+      }
         })
 
     }catch(error){

@@ -53,14 +53,38 @@ exports.getWing = async (req, res) => {
 
 exports.getAllWing = async (req, res) => {
     try{
+
+        let {page, limit} = req.query;
+        page = parseInt(page) || 1 ;
+        limit = parseInt(limit) || 5;
+
+        const totalWing = await Wing.countDocuments();
+        const totalPages = Math.ceil(totalWing / limit);
+
+
         const wing = await Wing.find().populate({path : "buildingId", populate: {
                     path: "addressId"
-                }});
+                }})
+                .skip((page -1) * limit)
+                .limit(limit)
+
         console.log(wing);
+        if(wing.length === 0){
+            return res.status(404).json({
+                success: false,
+                message: "something went wrong in Wing"
+            })
+          }
         return res.status(200).json({
           success: true,
           message:  "Wings detail are fetching successfully",
-          data: wing
+          data: wing,
+          pagination : {
+        currentPage : page,
+        limit : limit,
+        totalWing: wing,
+        totalPages: totalPages,
+      }
         })
     }catch(error){
         console.log(error);

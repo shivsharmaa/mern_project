@@ -21,9 +21,8 @@ const wingSchema = new mongoose.Schema({
     },
 
     
-});
+}, { timestamps: true });
 
-wingSchema.set("timestamps", true);
 wingSchema.index({createdAt : 1 });
 
 module.exports = mongoose.model("Wing", wingSchema);

@@ -5,10 +5,18 @@ exports.createAddress = async(req, res) => {
     try{
       
         console.log("received", req.body)
+        const {area, city, state, country, zip} = req.body;
+        
+        if(!area || !city || !state || !country || !zip ){
+          return res.status(400).json({
+            success: false,
+            message : "all fields are required"
+          })
+        }
         const newAddress = await Address.create(req.body);
        
 
-        res.status(200).json({
+        res.status(201).json({
             success: true,
             message: "Address create successfully.",
             data: newAddress,

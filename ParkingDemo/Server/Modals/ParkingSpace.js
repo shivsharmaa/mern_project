@@ -35,7 +35,7 @@ const ParkingSpaceSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['occupied', 'vacant'],
-        default: 'vacant'
+        default: 'occupied'
     },
     role: {
         type: String,

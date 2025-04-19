@@ -19,9 +19,7 @@ const ownerSchema = new mongoose.Schema({
         required: true
     },
     emailId : {
-        type : String,
-       
-        
+        type : String, 
 
     },
 

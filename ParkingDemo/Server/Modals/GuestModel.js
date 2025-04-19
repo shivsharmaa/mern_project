@@ -4,13 +4,11 @@ const guestVehicleSchema = new mongoose.Schema({
 
     guestName : {
         type: String,
-        required : true,
+        
     },
-
     vehicleNumber: {
         type: String,
-        required: true,
-        unique: true,
+        
       },
 
    vehicleType: {
@@ -45,6 +43,6 @@ const guestVehicleSchema = new mongoose.Schema({
 
 
 
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Guest", guestVehicleSchema)

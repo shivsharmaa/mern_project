@@ -5,8 +5,11 @@ const SignIn = require('../Modals/SignIn');
 // Sign up API
 exports.signupFamilyMember  = async (req, res) => {
     try{
-        console.log("Received data: ", req.body);
+        
         const {name, mobileNumber , password, flatId, relationWithOwner, role } = req.body;
+
+        
+        console.log("Received data: ", req.body);
 
         // if mobile number already exist
         const existingUser = await SignIn.findOne({mobileNumber})

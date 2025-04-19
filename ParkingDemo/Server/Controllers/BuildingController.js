@@ -3,6 +3,16 @@ const Building = require("../Modals/BuildingModal");
 //   create building
 exports.createBuild = async (req, res) => {
   try {
+    console.log(req.body)
+    const {name , addressId} = req.body;
+
+    if(!name || !addressId){
+      return res.status(400).json({
+        success: false,
+        message : "all fields are required"
+      })
+    }
+
     const newBuilding = await Building.create(req.body);
     
     res.status(200).json({
@@ -58,16 +68,39 @@ exports.getBuilding= async (req, res) => {
 
 exports.getAllBuilding = async (req, res) =>{
   try{
-    const building_data = await Building.find().populate("addressId");
+    // limit and pages are created
+    let {page, limit} = req.body;
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 5;
 
-    console.log("---------------------start-----------------------------------");
-    console.log(building_data)
-    console.log("---------------------End------------------------------------");
+    const totalBuilding =  await Building.countDocuments();
+    const totalPages = Math.ceil(totalBuilding / limit);
+
+
+    const building_data = await Building.find().populate("addressId")
+    .skip((page - 1) * limit)
+    .limit(limit)
+
+    console.log(building_data);
+
+    if(building_data.length===0){
+      return res.status(404).json({
+        success : false,
+         message: "something went wrong in Building"
+      })
+    }
 
     return res.status(200).json({
       success: true,
       message: "All building data fetched successfully",
-      data: building_data
+      data: building_data,
+      pagination : {
+        currentPage : page,
+        limit : limit,
+        totalBuilding: totalBuilding,
+        totalPages: totalPages,
+
+      }
     })
   }catch(error){
     console.log(error);

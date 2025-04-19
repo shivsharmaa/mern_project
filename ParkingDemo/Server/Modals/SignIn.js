@@ -7,40 +7,37 @@ const signInSchema = new mongoose.Schema({
 
     name : {
         type: String,
-        required : true,
      },
      
      mobileNumber : {
         type : String,
-        required : true,
-        unique : true
+
     },
 
     password : {
         type :String,
-        required : true
     },
     
 
      flatId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : "Flat",
-        required : true,
      },
 
      role: {
         type : String,
         enum : ['Owner', 'Family Member', 'Admin'],
-        required : true
+     },
+
+     token : {
+        type: String
      },
 
      isActive : {
         type : Boolean,
         default : true
      }
-});
-
-signInSchema.set("timestamps", true);
+}, { timestamps: true });
 
 signInSchema.methods.getJWTToken = function (){
     return jwt.sign({id: this._id}, process.env.JWT_SECRET, {
